@@ -6,14 +6,14 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/13 14:19:05 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/13 18:18:15 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 void	execute_command_if_valid(t_pipex *pipex, char **commands,
-	const char *envp[], char *full_path)
+		const char *envp[], char *full_path)
 {
 	if (access(full_path, F_OK | X_OK) == 0)
 	{
@@ -33,14 +33,21 @@ void	find_path(t_pipex *pipex, char **commands, const char *envp[])
 
 	i = 0;
 	pipex->path = NULL;
-	while (envp[i] != NULL)
+	if (envp != NULL)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		while (envp[i] != NULL)
 		{
-			pipex->path = ft_strdup(&envp[i][5]);
-			break ;
+			if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			{
+				pipex->path = ft_strdup(&envp[i][5]);
+				break ;
+			}
+			i++;
 		}
-		i++;
+	}
+	if (!pipex->path)
+	{
+		pipex->path = ft_strdup("/usr/bin:/bin:/usr/sbin:/sbin");
 	}
 	if (!pipex->path)
 		print_error(ERR_C);

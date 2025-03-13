@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/13 14:26:45 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/13 18:29:47 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 
 static int	count_words(const char *str, char delimiter)
 {
-	int	i;
 	int	count;
 	int	quotes;
 
-	i = 0;
 	count = 0;
 	quotes = 0;
-	while (str[i] != '\0')
+	while (*str != '\0')
 	{
-		while (str[i] == delimiter && str[i] != '\0')
-			i++;
-		if (str[i] != '\0')
+		while (*str != '\0' && *str == delimiter)
+			str++;
+		if (*str != '\0')
 			count++;
-		while (str[i] != '\0' && (quotes || str[i] != delimiter))
+		while (*str != '\0' && (quotes || *str != delimiter))
 		{
-			if (str[i] == '"' || str[i] == '\'')
-				quotes = !quotes;
-			i++;
+			if (*str == '"' || *str == '\'')
+			{
+				if (quotes == 0)
+					quotes = *str;
+				else if (quotes == *str)
+					quotes = 0;
+			}
+			str++;
 		}
 	}
 	return (count);
@@ -41,17 +44,22 @@ static int	find_next_word(const char *str, char delimiter, int *start,
 		int *end)
 {
 	int	i;
-	int	quotoes;
+	int	quotes;
 
 	i = *end;
-	quotoes = 0;
+	quotes = 0;
 	while (str[i] != '\0' && str[i] == delimiter)
 		i++;
 	*start = i;
-	while (str[i] != '\0' && (quotoes || str[i] != delimiter))
+	while (str[i] != '\0' && (quotes || str[i] != delimiter))
 	{
 		if (str[i] == '"' || str[i] == '\'')
-			quotoes = !quotoes;
+		{
+			if (quotes == 0)
+				quotes = str[i];
+			else if (quotes == str[i])
+				quotes = 0;
+		}
 		i++;
 	}
 	*end = i;

@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:48:50 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/13 13:47:32 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/13 18:19:10 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	handle_files(t_pipex *pipex, char *argv[])
 	if (pipex->outfile < 0)
 	{
 		close(pipex->infile);
-		printf("Infile opened with fd: %d %d\n", pipex->infile, pipex->outfile);
 		if (ft_strncmp(argv[2], "sleep ", 6) == 0)
 		{
 			n = ft_atoi(argv[2] + 6);
