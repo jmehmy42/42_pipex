@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:50:35 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/10 18:58:11 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/10 20:06:35 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PIPEX_H
 
 # include "fcntl.h"
-# include "libft/libft.h"
+# include "includes/libft/libft.h"
 # include "stdio.h"
 # include "stdlib.h"
 # include "sys/wait.h"
@@ -45,7 +45,7 @@ void		print_error(char *str);
 void		handle_files(t_pipex *pipex, char *argv[]);
 void		execute_command_if_valid(t_pipex *pipex, char **commands,
 				const char *envp[], char *full_path);
-void		cleanup_pipex(t_pipex *pipex, char **commands);
+void		clean_pipex(t_pipex *pipex, char **commands);
 void		close_and_wait(t_pipex *pipex, int *fd);
-void	exit_command(t_pipex *pipex, char **commands);
+void		clean_and_exit(t_pipex *pipex, char **commands);
 #endif
