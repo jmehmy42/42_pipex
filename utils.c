@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/13 18:19:23 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/16 20:15:44 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	close_and_wait(t_pipex *pipex, int *fd)
 	close(fd[1]);
 	close(pipex->infile);
 	close(pipex->outfile);
+	free(pipex->path);
 	waitpid(pipex->pid1, NULL, 0);
 	waitpid(pipex->pid2, &status, 0);
 	if (status >= 0)

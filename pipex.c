@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:48:50 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/13 18:19:10 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/16 21:56:31 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ void	input_processor(t_pipex *pipex, char *comm_input, const char *envp[],
 	commands = ft_arg_split(comm_input, ' ');
 	if (!commands || !commands[0])
 	{
+		free(pipex->path);
 		free_string(commands);
 		print_error(ERR_C);
 	}
-	find_path(pipex, commands, envp);
+	split_path(pipex, commands, envp);
 	free_string(commands);
 }
 
@@ -41,16 +42,20 @@ void	output_processor(t_pipex *pipex, char *comm_input, const char *envp[],
 	if (dup2(fd[0], STDIN_FILENO) < 0)
 		print_error(ERR_FILE);
 	if (dup2(pipex->outfile, STDOUT_FILENO) < 0)
+	{
+		free(pipex->path);
 		print_error(ERR_FILE);
+	}
 	close(pipex->outfile);
 	close(fd[0]);
 	commands = ft_arg_split(comm_input, ' ');
 	if (!commands || !commands[0])
 	{
+		free(pipex->path);
 		free_string(commands);
 		print_error(ERR_C);
 	}
-	find_path(pipex, commands, envp);
+	split_path(pipex, commands, envp);
 	free_string(commands);
 }
 
@@ -64,26 +69,27 @@ void	handle_files(t_pipex *pipex, char *argv[])
 		perror("Problems with files");
 		pipex->infile = open("/dev/null", O_RDONLY);
 		if (pipex->infile < 0)
-			print_error(ERR_W);
+			print_error(ERR_FILE);
 	}
 	pipex->outfile = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipex->outfile < 0)
 	{
-		close(pipex->infile);
 		if (ft_strncmp(argv[2], "sleep ", 6) == 0)
 		{
 			n = ft_atoi(argv[2] + 6);
 			if (n > 0)
 				sleep(n);
 		}
-		else
-			print_error(ERR_FILE);
+		print_error(ERR_FILE);
+		free(pipex->path);
+		exit(EXIT_FAILURE);
 	}
 }
 
 void	ft_pipex(t_pipex *pipex, int *fd, char *argv[], const char *envp[])
 {
 	handle_files(pipex, argv);
+	find_path(pipex, envp);
 	pipex->pid1 = fork();
 	if (pipex->pid1 < 0)
 		print_error(ERR_W);
@@ -113,7 +119,7 @@ int	main(int argc, char *argv[], const char *envp[])
 	if (argc == 5)
 	{
 		if (pipe(fd) == -1)
-			print_error(ERR_W);
+			print_error(ERR_C);
 		ft_pipex(&pipex, fd, argv, envp);
 	}
 	else
