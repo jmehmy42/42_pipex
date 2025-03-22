@@ -6,11 +6,22 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/16 20:15:44 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/22 13:17:52 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	unset_path_error(t_pipex *pipex, int *fd)
+{
+	ft_putstr_fd("command not found\n", 2);
+	ft_putstr_fd("command not found\n", 2);
+	close(pipex->infile);
+	close(pipex->outfile);
+	close(fd[0]);
+	close(fd[1]);
+	exit(127);
+}
 
 void	clean_pipex(t_pipex *pipex, char **commands)
 {
@@ -21,24 +32,27 @@ void	clean_pipex(t_pipex *pipex, char **commands)
 void	clean_and_exit(t_pipex *pipex, char **commands)
 {
 	perror("command not found");
+	close(pipex->outfile);
+	close(pipex->infile);
 	free(pipex->path);
 	clean_pipex(pipex, commands);
 	exit(127);
 }
 
-void	close_and_wait(t_pipex *pipex, int *fd)
+void	close_and_wait(t_pipex *pipex)
 {
 	int	status;
 
-	close(fd[0]);
-	close(fd[1]);
 	close(pipex->infile);
 	close(pipex->outfile);
 	free(pipex->path);
 	waitpid(pipex->pid1, NULL, 0);
 	waitpid(pipex->pid2, &status, 0);
 	if (status >= 0)
-		exit(status >> 8);
+	{
+		status = status / 256;
+		exit(status);
+	}
 	else
 		exit(1);
 }

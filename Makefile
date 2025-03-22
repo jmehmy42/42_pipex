@@ -14,7 +14,7 @@ NAME = pipex
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-SRC_FILES = pipex.c find_path.c utils.c
+SRC_FILES = pipex.c find_path.c utils.c processor.c
 OBJ_DIR = obj
 OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 

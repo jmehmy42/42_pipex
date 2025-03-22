@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/16 23:49:44 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/22 13:06:20 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,27 @@ void	execute_command_if_valid(t_pipex *pipex, char **commands,
 {
 	if (!full_path)
 	{
-		ft_putstr_fd ("path not found", 2);
-		clean_and_exit (pipex, commands);
+		ft_putstr_fd("path not found", 2);
+		clean_and_exit(pipex, commands);
 	}
 	if (access(full_path, F_OK | X_OK) == 0)
 	{
-		close (pipex->outfile);
-		close (pipex->infile);
+		close(pipex->outfile);
+		close(pipex->infile);
 		if (execve(full_path, commands, (char *const *)envp) == -1)
 		{
-			free (full_path);
-			clean_and_exit (pipex, commands);
+			free(full_path);
+			clean_and_exit(pipex, commands);
 		}
 	}
 }
 
-void	find_path(t_pipex *pipex, const char *envp[])
+void	find_path(t_pipex *pipex, const char *envp[], int *fd)
 {
 	int	i;
 
 	i = 0;
 	pipex->path = NULL;
-	if (!envp || envp[0] == NULL)
-	{
-		pipex->path = ft_strdup("/usr/bin:/bin:/usr/sbin:/sbin");
-		if (!pipex->path)
-			print_error(ERR_C);
-	}
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -55,13 +49,11 @@ void	find_path(t_pipex *pipex, const char *envp[])
 	}
 	if (!pipex->path)
 	{
-		ft_putstr_fd ("command not found\n", 2);
-		ft_putstr_fd ("command not found\n", 2);
-		exit(127);
+		unset_path_error(pipex, fd);
 	}
 }
 
-void	split_path(t_pipex *pipex, char **commands, const char *envp[])
+void	make_path(t_pipex *pipex, char **commands, const char *envp[])
 {
 	int		i;
 	char	*temp_path;

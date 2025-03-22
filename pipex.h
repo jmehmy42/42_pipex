@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:50:35 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/16 21:49:58 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/22 11:40:07 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@
 # include "sys/wait.h"
 # include "unistd.h"
 
-# define ERR_FILE "Problems with file"
+# define ERR_FILE "Problems  with file"
 # define ERR_C "Problems with commands"
 # define ERR_W "Something went wrong"
+# define ERR_O "outfile problem"
 
 typedef struct s_pipe
 {
@@ -39,13 +40,15 @@ void		input_processor(t_pipex *pipex, char *comm_input,
 				const char *envp[], int *fd);
 void		output_processor(t_pipex *pipex, char *comm_input,
 				const char *envp[], int *fd);
-void		find_path(t_pipex *pipex, const char *envp[]);
-void		split_path(t_pipex *pipex, char **commands, const char *envp[]);
+void		find_path(t_pipex *pipex, const char *envp[], int *fd);
+void		make_path(t_pipex *pipex, char **commands, const char *envp[]);
 void		print_error(char *str);
-void		handle_files(t_pipex *pipex, char *argv[]);
+void		handle_files(t_pipex *pipex, char *argv[], int *fd);
 void		execute_command_if_valid(t_pipex *pipex, char **commands,
 				const char *envp[], char *full_path);
 void		clean_pipex(t_pipex *pipex, char **commands);
-void		close_and_wait(t_pipex *pipex, int *fd);
+void		close_and_wait(t_pipex *pipex);
 void		clean_and_exit(t_pipex *pipex, char **commands);
+void		unset_path_error(t_pipex *pipex, int *fd);
+void		print_error_infile(t_pipex *pipex, int *fd);
 #endif
