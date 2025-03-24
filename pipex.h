@@ -23,7 +23,6 @@
 # define ERR_FILE "Problems  with file"
 # define ERR_C "Problems with commands"
 # define ERR_W "Something went wrong"
-# define ERR_O "outfile problem"
 
 typedef struct s_pipe
 {
