@@ -6,11 +6,21 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/22 13:06:20 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/24 14:33:21 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	absolute_path(t_pipex *pipex, char **commands, const char *envp[])
+{
+	if (commands[0][0] == '/' || commands[0][0] == '.')
+	{
+		if (access(commands[0], X_OK) == 0)
+			execute_command_if_valid(pipex, commands, envp,
+				ft_strdup(commands[0]));
+	}
+}
 
 void	execute_command_if_valid(t_pipex *pipex, char **commands,
 		const char *envp[], char *full_path)
@@ -32,7 +42,7 @@ void	execute_command_if_valid(t_pipex *pipex, char **commands,
 	}
 }
 
-void	find_path(t_pipex *pipex, const char *envp[], int *fd)
+void	find_path(t_pipex *pipex, const char *envp[])
 {
 	int	i;
 
@@ -47,18 +57,21 @@ void	find_path(t_pipex *pipex, const char *envp[], int *fd)
 		}
 		i++;
 	}
-	if (!pipex->path)
-	{
-		unset_path_error(pipex, fd);
-	}
 }
 
-void	make_path(t_pipex *pipex, char **commands, const char *envp[])
+void	make_path(t_pipex *pipex, char **commands, const char *envp[], int *fd)
 {
 	int		i;
 	char	*temp_path;
 	char	*full_path;
 
+	if (!pipex->path)
+	{
+		if (!pipex->path)
+			absolute_path(pipex, commands, envp);
+		unset_path_error(pipex, commands, fd);
+	}
+	absolute_path(pipex, commands, envp);
 	pipex->paths = ft_split(pipex->path, ':');
 	if (!pipex->paths)
 		clean_and_exit(pipex, commands);

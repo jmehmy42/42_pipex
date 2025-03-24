@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:50:35 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/22 11:40:07 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/24 14:28:50 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void		input_processor(t_pipex *pipex, char *comm_input,
 				const char *envp[], int *fd);
 void		output_processor(t_pipex *pipex, char *comm_input,
 				const char *envp[], int *fd);
-void		find_path(t_pipex *pipex, const char *envp[], int *fd);
-void		make_path(t_pipex *pipex, char **commands, const char *envp[]);
+void		find_path(t_pipex *pipex, const char *envp[]);
+void		make_path(t_pipex *pipex, char **commands, const char *envp[],
+				int *fd);
 void		print_error(char *str);
 void		handle_files(t_pipex *pipex, char *argv[], int *fd);
 void		execute_command_if_valid(t_pipex *pipex, char **commands,
@@ -48,6 +49,7 @@ void		execute_command_if_valid(t_pipex *pipex, char **commands,
 void		clean_pipex(t_pipex *pipex, char **commands);
 void		close_and_wait(t_pipex *pipex);
 void		clean_and_exit(t_pipex *pipex, char **commands);
-void		unset_path_error(t_pipex *pipex, int *fd);
+void		unset_path_error(t_pipex *pipex, char **commands, int *fd);
 void		print_error_infile(t_pipex *pipex, int *fd);
+void		absolute_path(t_pipex *pipex, char **commands, const char *envp[]);
 #endif

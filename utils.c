@@ -6,18 +6,19 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/22 13:17:52 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/24 14:28:11 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	unset_path_error(t_pipex *pipex, int *fd)
+void	unset_path_error(t_pipex *pipex, char **commands, int *fd)
 {
-	ft_putstr_fd("command not found\n", 2);
-	ft_putstr_fd("command not found\n", 2);
+	ft_putstr_fd("command not + found\n", 2);
 	close(pipex->infile);
 	close(pipex->outfile);
+	free(pipex->path);
+	free_string(commands);
 	close(fd[0]);
 	close(fd[1]);
 	exit(127);

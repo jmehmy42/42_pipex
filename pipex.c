@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:48:50 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/22 13:29:34 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/24 14:01:05 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	handle_files(t_pipex *pipex, char *argv[], int *fd)
 void	ft_pipex(t_pipex *pipex, int *fd, char *argv[], const char *envp[])
 {
 	handle_files(pipex, argv, fd);
-	find_path(pipex, envp, fd);
+	find_path(pipex, envp);
 	pipex->pid1 = fork();
 	if (pipex->pid1 < 0)
 		print_error(ERR_W);

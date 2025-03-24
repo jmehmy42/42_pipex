@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:22:40 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/22 13:05:57 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:56:28 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	input_processor(t_pipex *pipex, char *comm_input, const char *envp[],
 		ft_putstr_fd("empty command\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	make_path(pipex, commands, envp);
+	make_path(pipex, commands, envp, fd);
 	free_string(commands);
 }
 
@@ -67,6 +67,6 @@ void	output_processor(t_pipex *pipex, char *comm_input, const char *envp[],
 		ft_putstr_fd("empty command\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	make_path(pipex, commands, envp);
+	make_path(pipex, commands, envp, fd);
 	free_string(commands);
 }
