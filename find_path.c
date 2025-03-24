@@ -6,7 +6,7 @@
 /*   By: jmehmy <jmehmy@student.42lisboa.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:54:13 by jmehmy            #+#    #+#             */
-/*   Updated: 2025/03/24 14:33:21 by jmehmy           ###   ########.fr       */
+/*   Updated: 2025/03/24 15:18:31 by jmehmy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ void	find_path(t_pipex *pipex, const char *envp[])
 
 	i = 0;
 	pipex->path = NULL;
+	if (!envp || envp[0] == NULL)
+	{
+		pipex->path = ft_strdup("/usr/bin:/bin:/usr/sbin:/sbin");
+		if (!pipex->path)
+			print_error(ERR_W);
+	}
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
