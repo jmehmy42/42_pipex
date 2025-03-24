@@ -14,7 +14,7 @@
 
 void	unset_path_error(t_pipex *pipex, char **commands, int *fd)
 {
-	ft_putstr_fd("command not + found\n", 2);
+	ft_putstr_fd("command not found\n", 2);
 	close(pipex->infile);
 	close(pipex->outfile);
 	free(pipex->path);
