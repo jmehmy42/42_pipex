@@ -73,7 +73,7 @@ This runs `grep 42 < input.txt | wc -l > output.txt`
 
 ## 🎓 About
 
-Created as part of the [42 School](https://42.fr/en/homepage/) program, this project teaches low-level process management and inter-process communication in C using UNIX system calls.
+Created as part of the [42 School] program, this project teaches low-level process management and inter-process communication in C using UNIX system calls.
 
 ---
 
